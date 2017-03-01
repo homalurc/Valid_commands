@@ -15,22 +15,9 @@ def get_valid_commands(queue, fi, fd):
 	commands = []
 	# for storing given valid commands
 	valid_commands = []
-	# if file name is given 
-	if(not fi==None):
-		# read commands.txt file line by line 
-		with open('commands.txt','r') as commandsFile:
-			for line in commandsFile:
-				if('[COMMAND LIST]' in line):
-					list_val = 1
-				elif('[VALID COMMANDS]' in line):
-					list_val = 2
-				else:
-					if (list_val == 1):
-						commands.append(line)
-					if(list_val == 2):
-						valid_commands.append(line)
 	# if file data is given directly
-	else:
+	if(not fd==None):
+		# read commands.txt file line by line 
 		lines = fd.split('\n')
 		for line in lines:
 			if('[COMMAND LIST]' in line):
@@ -42,10 +29,25 @@ def get_valid_commands(queue, fi, fd):
 					commands.append(line)
 				if(list_val == 2):
 					valid_commands.append(line)
+
+	# if file name is given 
+	else:
+		with open('commands.txt','r') as commandsFile:
+			for line in commandsFile:
+				if('[COMMAND LIST]' in line):
+					list_val = 1
+				elif('[VALID COMMANDS]' in line):
+					list_val = 2
+				else:
+					if (list_val == 1):
+						commands.append(line)
+					if(list_val == 2):
+						valid_commands.append(line)
 	# check for all commands whether it is a valid command
 	for command in commands:
+		command = command.strip()
 		if(command in valid_commands):
-			queue.put(command.strip())
+			queue.put(command)
 			print command, 'is valid'
 		else:
 			print command, 'is not valid'  
