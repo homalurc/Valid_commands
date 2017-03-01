@@ -1,7 +1,7 @@
 I have completed the challenge for intern along with the three bonus questions.
-Bonus 1: I have read the file line by line so that the whole file will not be read in memory
-Bonus 2: I have made the command executions non blocking as they do not need to acquire a lock and have also removed join method for the process so that the user does not wait for any single process to end 
-Bonus 3: Completed by taking the given parameter through request.files.get('file_data')
+- Bonus 1: I have read the file line by line so that the whole file will not be read in memory
+- Bonus 2: I have made the command executions non blocking as they do not need to acquire a lock and have also removed join method for the process so that the user does not wait for any single process to end 
+- Bonus 3: Completed by taking the given parameter through request.files.get('file_data')
 
 # Nervana Cloud Coding Challenge #
 
