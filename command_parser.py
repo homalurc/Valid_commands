@@ -40,12 +40,12 @@ def get_valid_commands(queue, fi, fd):
 					list_val = 2
 				else:
 					if (list_val == 1):
-						commands.append(line)
+						commands.append(line.strip())
 					if(list_val == 2):
-						valid_commands.append(line)
+						valid_commands.append(line.strip())
+	print valid_commands
 	# check for all commands whether it is a valid command
 	for command in commands:
-		command = command.strip()
 		if(command in valid_commands):
 			queue.put(command)
 			print command, 'is valid'
@@ -60,6 +60,14 @@ def process_command_output(queue):
     # TODO: run the command and put its data in the db
     while(not queue.empty()):
 		command = queue.get()
+		print command
+		# create an object of the table 
+		c = Command(command, len(command), 0, 'fetching results...')
+		# check whether the same command exists in the table and if it does do not the command again to the database
+		command_db = session.query(Command).filter_by(command_string = command).first()
+		if(command_db is None):
+			session.add(c)
+			session.commit()
 		# create a temp file that does not exist already
 		file = open('test_'+str(os.getpid())+'.sh','w')
 		file.write(command)
@@ -92,6 +100,11 @@ def process_command_output(queue):
 		if(command_db is None):
 			session.add(c)
 			session.commit()
+		else:
+			if(command_db.output=='fetching results...'):
+				command_db.output = out
+				command_db.duration = t
+				session.commit()
 		#remove the temporary file that was created
 		os.remove('test_'+str(os.getpid())+'.sh')
 
