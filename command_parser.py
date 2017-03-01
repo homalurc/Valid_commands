@@ -6,6 +6,7 @@ import subprocess
 import time
 from db import session, engine
 from base import Command
+import math
 
 def get_valid_commands(queue, fi, fd):
     # TODO: efficiently evaluate commands
@@ -83,7 +84,7 @@ def process_command_output(queue):
 			t = 0.0
 		
 		# create an object of the table 
-		c = Command(command, len(command), t, out)
+		c = Command(command, len(command), math.ceil(t), out)
 		# check whether the same command exists in the table and if it does do not the command again to the database
 		command_db = session.query(Command).filter_by(command_string = command).first()
 		if(command_db is None):
