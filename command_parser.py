@@ -43,7 +43,6 @@ def get_valid_commands(queue, fi, fd):
 						commands.append(line.strip())
 					if(list_val == 2):
 						valid_commands.append(line.strip())
-	print valid_commands
 	# check for all commands whether it is a valid command
 	for command in commands:
 		if(command in valid_commands):
@@ -60,7 +59,6 @@ def process_command_output(queue):
     # TODO: run the command and put its data in the db
     while(not queue.empty()):
 		command = queue.get()
-		print command
 		# create an object of the table 
 		c = Command(command, len(command), 0, 'fetching results...')
 		# check whether the same command exists in the table and if it does do not the command again to the database
